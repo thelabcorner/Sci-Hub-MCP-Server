@@ -1,156 +1,75 @@
 # Sci-Hub MCP Server
 
-[![smithery badge](https://smithery.ai/badge/@JackKuo666/sci-hub-mcp-server)](https://smithery.ai/server/@JackKuo666/sci-hub-mcp-server)
+MCP server for searching Sci-Hub and downloading academic papers by DOI, title, or keyword.
 
-🔍 Enable AI assistants to search, access, and analyze academic papers through Sci-Hub using a simple MCP interface.
+## Overview
 
-The Sci-Hub MCP Server provides a bridge between AI assistants and Sci-Hub's repository of academic literature through the Model Context Protocol (MCP). It allows AI models to search for scientific articles by DOI, title, or keywords, access their metadata, and download PDFs in a programmatic way.
+This server exposes Sci-Hub search and PDF retrieval through the Model Context Protocol. It resolves the current Sci-Hub Altcha proof-of-work challenge, handles the updated article page layout, and falls back across mirrors.
 
-## ✨ Core Features
+## Features
 
-- 🔎 Paper Search by DOI: Find papers using their Digital Object Identifier ✅
-- 🔍 Paper Search by Title: Locate papers using their full or partial title ✅
-- 🔑 Paper Search by Keyword: Discover papers related to specific research areas ✅
-- 📊 Metadata Access: Retrieve detailed metadata for specific papers ✅
-- 📄 PDF Download: Download full-text PDF content when available ✅
+- Search by DOI, title, or keyword
+- Retrieve title, author, year, and PDF URL
+- Download PDFs to a local path
+- Crossref-backed title and keyword resolution
+- Windows-safe UTF-8 stdio handling
 
-## 🚀 Quick Start
-
-### Prerequisites
+## Requirements
 
 - Python 3.10+
-- FastMCP library
+- Dependencies in `requirements.txt`
 
-### Installation
+## Installation
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/JackKuo666/Sci-Hub-MCP-Server.git
-   cd Sci-Hub-MCP-Server
-   ```
+```bash
+git clone https://github.com/thelabcorner/Sci-Hub-MCP-Server.git
+cd Sci-Hub-MCP-Server
+python -m venv .venv
+.venv/Scripts/python -m pip install -r requirements.txt
+```
 
-2. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-## 📊 Usage
-
-Start the MCP server:
+## Usage
 
 ```bash
 python sci_hub_server.py
 ```
 
-## Usage with Claude Desktop
-
-Add this configuration to your `claude_desktop_config.json`:
-
-(Mac OS)
+## MCP Configuration
 
 ```json
 {
   "mcpServers": {
     "scihub": {
       "command": "python",
-      "args": ["-m", "sci_hub_server.py"]
-      }
-  }
-}
-```
-
-(Windows version):
-
-```json
-{
-  "mcpServers": {
-    "scihub": {
-      "command": "C:\\Users\\YOUR\\PATH\\miniconda3\\envs\\mcp_server\\python.exe",
-      "args": [
-        "D:\\code\\YOUR\\PATH\\Sci-Hub-MCP-Server\\sci_hub_server.py"
-      ],
-      "env": {},
-      "disabled": false,
-      "autoApprove": []
+      "args": ["sci_hub_server.py"],
+      "env": { "PYTHONIOENCODING": "utf-8" }
     }
   }
 }
 ```
 
-## 🛠 MCP Tools
+## Tools
 
-The Sci-Hub MCP Server provides the following tools:
+| Tool | Description |
+|------|-------------|
+| `search_scihub_by_doi` | Search by DOI |
+| `search_scihub_by_title` | Search by title |
+| `search_scihub_by_keyword` | Search by keyword |
+| `download_scihub_pdf` | Download a PDF |
+| `get_paper_metadata` | Get metadata by DOI |
 
-1. `search_scihub_by_doi`: Search for a paper on Sci-Hub using its DOI (Digital Object Identifier).
-2. `search_scihub_by_title`: Search for a paper on Sci-Hub using its title.
-3. `search_scihub_by_keyword`: Search for papers on Sci-Hub using a keyword.
-4. `download_scihub_pdf`: Download a paper PDF from Sci-Hub.
-5. `get_paper_metadata`: Get metadata information for a paper using its DOI.
+## Development
 
-### Searching Papers by DOI
+Run a quick smoke test:
 
-You can ask the AI assistant to search for papers using DOI:
-```
-Can you search Sci-Hub for the paper with DOI 10.1038/nature09492?
-```
-
-### Searching Papers by Title
-
-You can search for papers using their title:
-```
-Can you find the paper titled "Choosing Assessment Instruments for Posttraumatic Stress Disorder Screening and Outcome Research" on Sci-Hub?
+```bash
+python -c "from sci_hub_search import search_paper_by_doi; print(search_paper_by_doi('10.1038/nature09492'))"
 ```
 
-### Searching Papers by Keyword
+## License
 
-You can search for papers related to specific keywords:
-```
-Can you search Sci-Hub for recent papers about artificial intelligence in medicine?
-```
+MIT. See `LICENSE`.
 
-### Downloading Papers
+## Disclaimer
 
-Once you have found a paper, you can download it:
-```
-Can you download the PDF for this paper to my_paper.pdf?
-```
-
-### Getting Paper Metadata
-
-You can request metadata for a paper using its DOI:
-```
-Can you show me the metadata for the paper with DOI 10.1038/nature09492?
-```
-
-## 📁 Project Structure
-
-- `sci_hub_server.py`: The main MCP server implementation using FastMCP
-- `sci_hub_search.py`: Contains the logic for searching Sci-Hub and retrieving paper information
-
-## 🔧 Dependencies
-
-- Python 3.10+
-- FastMCP (mcp < 2.0)
-- requests
-- bs4
-- scihub
-- altcha
-
-## 🛠 Changes in this fork
-
-- Solves Sci-Hub's Altcha proof-of-work CAPTCHA automatically.
-- Supports current Sci-Hub page layout (`<object data="...pdf">`) and multiple mirrors.
-- Fixes Windows `charmap` encoding errors by using UTF-8 stdio.
-- Pins `mcp < 2.0` for FastMCP compatibility.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## ⚠️ Disclaimer
-
-This tool is for research purposes only. Please respect copyright laws and use this tool responsibly. The authors do not endorse or encourage any copyright infringement.
+For research use only. Respect copyright laws and use responsibly.
