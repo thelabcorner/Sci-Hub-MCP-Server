@@ -1,11 +1,16 @@
+import sys
 from typing import Any, List, Dict, Optional, Union
 import asyncio
 import logging
+# Ensure stdio uses UTF-8 on Windows so non-ASCII text does not trigger charmap errors.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', stream=sys.stderr, encoding="utf-8")
 from mcp.server.fastmcp import FastMCP
 from sci_hub_search import search_paper_by_doi, search_paper_by_title, search_papers_by_keyword, download_paper
-
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Initialize FastMCP server
 mcp = FastMCP("scihub")

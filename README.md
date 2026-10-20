@@ -130,10 +130,18 @@ Can you show me the metadata for the paper with DOI 10.1038/nature09492?
 ## 🔧 Dependencies
 
 - Python 3.10+
-- FastMCP
+- FastMCP (mcp < 2.0)
 - requests
 - bs4
 - scihub
+- altcha
+
+## 🛠 Changes in this fork
+
+- Solves Sci-Hub's Altcha proof-of-work CAPTCHA automatically.
+- Supports current Sci-Hub page layout (`<object data="...pdf">`) and multiple mirrors.
+- Fixes Windows `charmap` encoding errors by using UTF-8 stdio.
+- Pins `mcp < 2.0` for FastMCP compatibility.
 
 ## 🤝 Contributing
 
